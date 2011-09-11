@@ -1,0 +1,3 @@
+id=${1:-1}
+echo "launching jmeter script in <usi>/src/vfabric/jmeter/inser_users_$id.jmx logs are in /opt/usi2011_jaxio/log/insert_users_$id.log"
+/opt/usi2011_jaxio/jakarta-jmeter-2.4/bin/jmeter -n -t /opt/usi2011_jaxio/game/src/main/vfabric/jmeter/insert_users_$id.jmx -l /opt/usi2011_jaxio/log/inserts_user_$id.log > /dev/null &

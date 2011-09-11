@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>USI 2011 test client</title>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="http://jquery-json.googlecode.com/files/jquery.json-1.3.min.js"></script>
+<style>
+html,body {
+height: 95%;
+}
+input:focus:invalid {
+	background-color: lightPink;
+}
+
+input:valid {
+	background-color: lightGreen
+}
+
+#xmlFileContent {
+	border: 1px solid black;
+	margin: 5px 10px;
+	width: 98%;
+	height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.tabs {
+	height: 100%;
+	position: relative;
+	z-index: 1;
+	display: block;
+}
+
+.tabs section {
+	height: 100%;
+	float: left;
+	z-index: 1;
+}
+
+.tabs section h3 {
+	margin: 0 1px 0 0;
+	background: #eee;
+	padding: 3px 10px;
+	font: bold 12px Arial;
+	-moz-border-radius: 5px 5px 0 0;
+	cursor: hand;
+	cursor: pointer;
+}
+
+.tabs section.current h3 {
+	background: #d9d9d9;
+	cursor: default;
+}
+
+.tabs section div {
+	position: absolute;
+	left: 0;
+	z-index: 2;
+	width: 98%;
+	height: 100%;
+	background: #d9d9d9;
+	display: none;
+	padding: 10px 10px;
+	font: 12px Arial;
+}
+
+.tabs section.current div {
+	display: block;
+}
+
+#status {
+	position: absolute;
+	bottom:0;
+}
+</style>
+
+
+<script type="text/javascript">
+	$(function() {
+		$('article.tabs section > h3').click(function() {
+			$('article.tabs section').removeClass('current');
+			$(this).closest('section').addClass('current');
+		});
+	});
+
+	$.fn.serializeObject = function() {
+		var o = {};
+		var a = this.serializeArray();
+		//		alert(a);
+		$.each(a, function() {
+			if (o[this.name]) {
+				if (!o[this.name].push) {
+					o[this.name] = [ o[this.name] ];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+	$(function() {
+		$("#userForm").submit(function() {
+			$("#status").html("Submitting...");
+			var jsonPayload = $.toJSON($("#userForm").serializeObject());
+			//			alert(jsonPayload);
+
+			$.ajax({
+				type : "POST",
+				url : "api/user",
+				data : jsonPayload,
+				dataType : "json",
+				statusCode : {
+					201 : function() {
+						$("#status").html("Created");
+					},
+					400 : function() {
+						$("#status").html("user already exists");
+					}
+				}
+			});
+
+			return false;
+
+		});
+	});
+
+	function readXmlFile() {
+		var file = $("#xmlFile").get(0).files[0];
+		var reader = new FileReader();
+		reader.onload = function(evt) {
+			$("#xmlFileContent").get(0).value = evt.target.result;
+		};
+		reader.readAsText(file);
+	}
+
+	$(function() {
+		$("#gameForm")
+				.submit(
+						function() {
+							var xml = $("#xmlFileContent").get(0).value;
+							xml = xml.replace(/\"/g, '\\"');
+							xml = xml.replace(/[\r\n]+/g, "");
+
+							var jsonPayload = '{"authentication_key" : "jaxio","parameters" : "'
+									+ xml + '"}';
+							$.ajax({
+								type : "POST",
+								url : "api/game",
+								data : jsonPayload,
+								dataType : "json",
+								statusCode : {
+									201 : function() {
+										$("#status").html("Created");
+									},
+									400 : function() {
+										$("#status").html("Error");
+									},
+									401 : function() {
+										$("#status").html(
+												"Invalid authentication key");
+									}
+								}
+							});
+
+							return false;
+						});
+	});
+
+	$(function() {
+		$("#loginForm").submit(function() {
+			$("#status").html("Submitting...");
+			var jsonPayload = $.toJSON($("#loginForm").serializeObject());
+//			alert(jsonPayload);
+
+			$.ajax({
+				type : "POST",
+				url : "api/login",
+				data : jsonPayload,
+				dataType : "json",
+				statusCode : {
+					201 : function() {
+						$("#status").html("logged in");
+					},
+					400 : function() {
+						$("#status").html("user already logged in");
+					},
+					401 : function() {
+						$("#status").html("invalid user or password");
+					}
+				}
+			});
+
+			return false;
+
+		});
+	});
+
+	$(function() {
+		$("#questionForm").submit(
+				function() {
+					$("#status").html("Submitting...");
+					$.ajax({
+						type : "GET",
+						url : "api/question/"
+								+ $("#questionNumber").val(),
+						statusCode : {
+							200 : function() {
+								$("#status").html("OK");
+							},
+							400 : function() {
+								$("#status").html("out of sequence?");
+							},
+							401 : function() {
+								$("#status").html("user not logged in");
+							}
+						}
+					});
+
+					return false;
+
+				});
+	});
+
+	$(function() {
+		$("#answerForm").submit(
+				function() {
+					$("#status").html("Submitting...");
+					var jsonPayload = '{"answer" : ' + $("#answerNumber").val()
+							+ '}';
+//					alert(jsonPayload);
+
+					$.ajax({
+						type : "POST",
+						url : "api/answer/"
+								+ $("#answerQuestionNumber").val(),
+						data : jsonPayload,
+						dataType : "json",
+						statusCode : {
+							201 : function() {
+								$("#status").html("OK");
+							},
+							400 : function() {
+								$("#status").html("error...");
+							},
+							401 : function() {
+								$("#status").html("user not logged in");
+							}
+						}
+					});
+
+					return false;
+
+				});
+	});
+	
+	$(function() {
+		$("#rankingForm").submit(
+				function() {
+					$("#status").html("Submitting...");
+					$.ajax({
+						type : "GET",
+						url : "api/ranking",
+						statusCode : {
+							200 : function() {
+								$("#status").html("OK");
+							},
+							400 : function() {
+								$("#status").html("error");
+							},
+							401 : function() {
+								$("#status").html("user not logged in");
+							}
+						}
+					});
+
+					return false;
+
+				});
+	});
+	
+	$(function() {
+		$("#scoreForm").submit(function() {
+			$("#status").html("Submitting...");
+
+			$.ajax({
+				type : "GET",
+				url : "/api/score?user_mail=" + $("#userMail").val() + "&authentication_key=jaxio",
+				statusCode : {
+					200 : function() {
+						$("#status").html("OK");
+					},
+					400 : function() {
+						$("#status").html("error");
+					},
+					401 : function() {
+						$("#status").html("bad authentication key");
+					}
+
+				}
+			});
+
+			return false;
+
+		});
+	});
+
+	$(function() {
+		$("#auditAnswersForm").submit(function() {
+			$("#status").html("Submitting...");
+
+			$.ajax({
+				type : "GET",
+				url : "/api/audit?user_mail=" + $("#auditAnswersUserMail").val() + "&authentication_key=jaxio",
+				statusCode : {
+					200 : function() {
+						$("#status").html("OK");
+					},
+					400 : function() {
+						$("#status").html("error");
+					},
+					401 : function() {
+						$("#status").html("bad authentication key");
+					}
+
+				}
+			});
+
+			return false;
+
+		});
+	});
+
+	$(function() {
+		$("#auditAnswerNForm").submit(function() {
+			$("#status").html("Submitting...");
+
+			$.ajax({
+				type : "GET",
+				url : "/api/audit/" + $("#auditAnswerNQuestionNumber").val() + "?user_mail=" + $("#auditAnswerNUserMail").val() + "&authentication_key=jaxio",
+				statusCode : {
+					200 : function() {
+						$("#status").html("OK");
+					},
+					400 : function() {
+						$("#status").html("error");
+					},
+					401 : function() {
+						$("#status").html("bad authentication key");
+					}
+
+				}
+			});
+
+			return false;
+
+		});
+	});
+
+
+</script>
+</head>
+
+<body>
+<article class="tabs">
+<section class="current">
+<h3>Admin</h3>
+<div>
+
+<form id="userForm">
+<fieldset><legend>Create User</legend> <label for="firstname">firstname:</label> <input id="firstname"
+	type="text" name="firstname" required /> <label for="lastname">lastname:</label> <input id="lastname" type="text"
+	name="lastname" required /> <label for="mail">mail:</label> <input type="email" id="mail" type="text" name="mail"
+	required /> <label for="password">password:</label> <input id="password" type="password" name="password" required />
+<button>Submit</button>
+</fieldset>
+</form>
+
+<hr>
+
+<form id="gameForm">
+<fieldset><legend>Create Game</legend> <input id='xmlFile' type="file" required onchange="readXmlFile()" />
+<textarea rows="10" id="xmlFileContent"></textarea>
+<button>Submit</button>
+</fieldset>
+</form>
+<hr>
+
+<form id="scoreForm">
+<fieldset><legend>Score</legend> <label for="userMail">mail:</label> <input type="email" id="userMail" type="text"
+	name="userMail" required />
+<button>Submit</button>
+</fieldset>
+</form>
+
+<form id="auditAnswersForm">
+<fieldset><legend>Answers</legend> <label for="auditAnswersUserMail">mail:</label> <input type="email" id="auditAnswersUserMail" type="text"
+	name="auditAnswersUserMail" required />
+<button>Submit</button>
+</fieldset>
+</form>
+
+<form id="auditAnswerNForm">
+<fieldset><legend>Answer</legend> <label for="auditAnswerNUserMail">mail:</label> <input type="email" id="auditAnswerNUserMail" type="text"
+	name="auditAnswerNUserMail" required />
+	<label for="auditAnswerNQuestionNumber">question number:</label> <input
+	id="auditAnswerNQuestionNumber" type="text" name="auditAnswerNQuestionNumber" required />
+<button>Submit</button>
+</fieldset>
+</form>
+
+</div>
+</section>
+
+<section>
+<h3>Player</h3>
+<div>
+
+<form id="loginForm">
+<fieldset><legend>Login</legend> <label for="mail">mail:</label> <input type="email" id="mail" type="text"
+	name="mail" required /> <label for="password">password:</label> <input id="password" type="password" name="password"
+	required />
+<button>Submit</button>
+</fieldset>
+</form>
+<hr>
+
+<form id="questionForm">
+<fieldset><legend>Question</legend> <label for="questionNumber">question number:</label> <input
+	id="questionNumber" type="text" name="questionNumber" required />
+<button>Submit</button>
+</fieldset>
+</form>
+<hr>
+
+<form id="answerForm">
+<fieldset><legend>Answer</legend> <label for="answerQuestionNumber">question number:</label> <input
+	id="answerQuestionNumber" type="text" name="answerQuestionNumber" required /> <label for="answerNumber">answer
+number:</label> <input id="answerNumber" type="text" name="answerNumber" required />
+<button>Submit</button>
+</fieldset>
+</form>
+<hr>
+
+<form id="rankingForm">
+<fieldset><legend>Ranking</legend>
+<button>Get ranking</button>
+</fieldset>
+</form>
+
+</div>
+</section>
+</article>
+
+<div id="status"></div>
+</body>
+</html>

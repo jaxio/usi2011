@@ -1,0 +1,5 @@
+echo Clean cassandra install
+basedir=`dirname $0` 
+$basedir/drop
+$basedir/start
+$basedir/init

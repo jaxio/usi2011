@@ -1,0 +1,3 @@
+echo Killing previous servers
+jps | grep Launcher | cut -d ' ' -f1 | xargs kill -9
+sleep 1

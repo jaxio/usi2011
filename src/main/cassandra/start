@@ -1,0 +1,11 @@
+echo Starting cassandra
+mkdir -p `dirname $0`/target
+cassandra > `dirname $0`/target/cassandra.log &
+echo Waiting cassandra to be up and listening
+succeed=0
+until [ $succeed -eq 1 ]
+do
+        succeed=`nc -z localhost 9160 | grep -i succeed | wc -l`
+        sleep 1
+done
+echo Cassandra is ready

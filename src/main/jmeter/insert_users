@@ -1,0 +1,3 @@
+mkdir -p `dirname $0`/logs
+${JMETER_HOME}/bin/jmeter -n -t `dirname $0`/known_users.jmx -l `dirname $0`/logs/insert_user.log
+${JMETER_HOME}/bin/jmeter -n -t `dirname $0`/insert_users.jmx -l `dirname $0`/logs/insert_user.log

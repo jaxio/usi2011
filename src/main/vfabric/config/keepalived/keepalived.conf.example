@@ -1,0 +1,82 @@
+vrrp_sync_group VG1 {
+    group {
+        VI_1
+        VI_2
+    }
+}
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 1
+    priority 100
+    lvs_sync_daemon_interface eth0
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+       192.168.1.210/24 dev eth0
+    }
+}
+
+vrrp_instance VI_2 {
+    state SLAVE
+    interface eth0
+    virtual_router_id 1
+    priority 100
+    lvs_sync_daemon_interface eth0
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+       192.168.1.210/24 dev eth0
+    }
+}
+
+virtual_server 192.168.1.210 80 {
+    delay_loop 10
+    lb_algo rr
+    lb_kind NAT
+    persistence_timeout 0 
+    protocol TCP
+
+real_server 192.168.1.1 9999 {
+    weight 100
+    TCP_CHECK {
+        connect_timeout 3
+    }
+}
+
+real_server 192.168.1.1 9998 {
+    weight 100
+    TCP_CHECK {
+        connect_timeout 3
+    }
+}
+
+real_server 192.168.1.11 9999 {
+    weight 100
+    TCP_CHECK {
+        connect_timeout 3
+    }
+}
+
+real_server 192.168.1.11 9998 {
+    weight 100
+    TCP_CHECK {
+        connect_timeout 3
+    }
+}
+
+#    real_server 192.168.1.1 9999 {
+#        weight 100
+#        TCP_CHECK {
+#            connect_timeout 3
+#        }
+#    }
+
+}

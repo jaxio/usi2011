@@ -1,0 +1,6 @@
+.*http.HttpRequestHandlerTest
+.*service.CassandraTest
+.*service.FinalScoreServiceTest
+
+
+# Blank lines need to be filtered out, so do comments like this

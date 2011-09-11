@@ -1,0 +1,2 @@
+copier dans /etc/keepalived/keepalived.conf
+lancer /etc/init.d/keepalived start

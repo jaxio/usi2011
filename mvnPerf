@@ -1,0 +1,29 @@
+#!/bin/bash
+profiler=${1:-off}
+
+JVM_OPTS="-Xmx1024m"
+JVM_OPTS="$JVM_OPTS -Xms1024m"
+JVM_OPTS="$JVM_OPTS -Xss128k"
+JVM_OPTS="$JVM_OPTS -XX:ParallelGCThreads=20"
+JVM_OPTS="$JVM_OPTS -XX:+UseParNewGC"
+JVM_OPTS="$JVM_OPTS -XX:+UseConcMarkSweepGC"
+JVM_OPTS="$JVM_OPTS -XX:SurvivorRatio=8"
+JVM_OPTS="$JVM_OPTS -XX:TargetSurvivorRatio=90"
+JVM_OPTS="$JVM_OPTS -XX:MaxTenuringThreshold=31"
+JVM_OPTS="$JVM_OPTS -XX:+CMSParallelRemarkEnabled"
+JVM_OPTS="$JVM_OPTS -XX:+UseCompressedOops"
+JVM_OPTS="$JVM_OPTS -Djava.awt.headless=true"
+JVM_OPTS="$JVM_OPTS -Djava.net.preferIPv4Stack=true"
+
+export MAVEN_OPTS="$JVM_OPTS"
+
+if [ "$profiler" = "on" ]; then 
+ export MAVEN_OPTS="$JVM_OPTS -agentpath:/Applications/jprofiler6/bin/macos/libjprofilerti.jnilib=port=8849,nowait"
+ echo MAVEN_OPTS = $MAVEN_OPTS
+ echo executing mvn $2 $3 $4 $5
+ mvn $2 $3 $4
+else
+ echo MAVEN_OPTS = $MAVEN_OPTS
+ echo executing mvn $1 $2 $3 $4 $5
+ mvn $1 $2 $3 $4
+fi

@@ -1,0 +1,2 @@
+`dirname $0`/kill-web-servers
+`dirname $0`/start-web-servers

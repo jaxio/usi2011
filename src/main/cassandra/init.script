@@ -1,0 +1,14 @@
+create keyspace USI_KEYSPACE;
+create keyspace USI_RANKING;
+use USI_KEYSPACE;
+create column family Parameters;
+create column family Users with read_repair_chance = 0;
+create column family UsersData with read_repair_chance = 0;
+create column family LoginStatus;
+create column family DoubleLogin;
+create column family GameStatusSuperCol with column_type = 'Super';
+create column family Questions;
+create column family AnswersByMail;
+create column family RankingStatus with column_type = 'Super' and comment = 'Pour la gestion du tweet final';
+use USI_RANKING;
+create column family FinalScores with read_repair_chance = 0 and comment = 'pour les données du ranking final' and rows_cached = 1;

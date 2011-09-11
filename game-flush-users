@@ -1,0 +1,3 @@
+#!/bin/bash
+./src/main/wget/game-flush-users
+./src/main/jmeter/insert_users

@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tsung SYSTEM "??/tsung-1.3.3/tsung-1.0.dtd">
+<tsung loglevel="warning" version="1.0" dumptraffic="light">
+	%%CLIENTS%%
+	%%SERVERS%%
+	<load>
+		<arrivalphase phase="1" duration="1" unit="second">
+			<users arrivalrate="1" unit="second" />
+		</arrivalphase>
+		<user session="play_game" start_time="2" unit="second" />
+	</load>
+	<options>
+		<option type="ts_http" name="user_agent" />
+		<option name="file_server" id="key" value="./authentication_key" />
+		<option name="file_server" id="data" value="./round_data.csv" />
+		<option name="file_server" id="questions" value="./questions.csv" />
+		<option name="file_server" id="top_rank" value="./top_scores.csv" />
+	</options>
+	<sessions>
+		<session name="play_game" probability="100" type="ts_http">
+			<setdynvars sourcetype="file" fileid="key" delimiter="%%"
+				order="iter">
+				<var name="key" />
+			</setdynvars>
+			<setdynvars sourcetype="file" fileid="data" delimiter="%%"
+				order="iter">
+				<var name="mail" />
+				<var name="password" />
+				<var name="answer1" />
+				<var name="is_right1" />
+				<var name="score1" />
+				<var name="answer2" />
+				<var name="is_right2" />
+				<var name="score2" />
+				<var name="answer3" />
+				<var name="is_right3" />
+				<var name="score3" />
+				<var name="answer4" />
+				<var name="is_right4" />
+				<var name="score4" />
+				<var name="answer5" />
+				<var name="is_right5" />
+				<var name="score5" />
+				<var name="answer6" />
+				<var name="is_right6" />
+				<var name="score6" />
+				<var name="answer7" />
+				<var name="is_right7" />
+				<var name="score7" />
+				<var name="answer8" />
+				<var name="is_right8" />
+				<var name="score8" />
+				<var name="answer9" />
+				<var name="is_right9" />
+				<var name="score9" />
+				<var name="answer10" />
+				<var name="is_right10" />
+				<var name="score10" />
+				<var name="answer11" />
+				<var name="is_right11" />
+				<var name="score11" />
+				<var name="answer12" />
+				<var name="is_right12" />
+				<var name="score12" />
+				<var name="answer13" />
+				<var name="is_right13" />
+				<var name="score13" />
+				<var name="answer14" />
+				<var name="is_right14" />
+				<var name="score14" />
+				<var name="answer15" />
+				<var name="is_right15" />
+				<var name="score15" />
+				<var name="answer16" />
+				<var name="is_right16" />
+				<var name="score16" />
+				<var name="answer17" />
+				<var name="is_right17" />
+				<var name="score17" />
+				<var name="answer18" />
+				<var name="is_right18" />
+				<var name="score18" />
+				<var name="answer19" />
+				<var name="is_right19" />
+				<var name="score19" />
+				<var name="answer20" />
+				<var name="is_right20" />
+				<var name="score20" />
+				<var name="before_mail" />
+				<var name="before_score" />
+				<var name="before_firstname" />
+				<var name="before_lastname" />
+				<var name="after_mail" />
+				<var name="after_score" />
+				<var name="after_firstname" />
+				<var name="after_lastname" />
+			</setdynvars>
+			<setdynvars sourcetype="file" fileid="questions"
+				delimiter="%%" order="iter">
+				<var name="question1_label" />
+				<var name="question1_answer1" />
+				<var name="question1_answer2" />
+				<var name="question1_answer3" />
+				<var name="question1_answer4" />
+				<var name="question1_good_answer" />
+				<var name="question1_good_indx" />
+				<var name="question2_label" />
+				<var name="question2_answer1" />
+				<var name="question2_answer2" />
+				<var name="question2_answer3" />
+				<var name="question2_answer4" />
+				<var name="question2_good_answer" />
+				<var name="question2_good_indx" />
+				<var name="question3_label" />
+				<var name="question3_answer1" />
+				<var name="question3_answer2" />
+				<var name="question3_answer3" />
+				<var name="question3_answer4" />
+				<var name="question3_good_answer" />
+				<var name="question3_good_indx" />
+				<var name="question4_label" />
+				<var name="question4_answer1" />
+				<var name="question4_answer2" />
+				<var name="question4_answer3" />
+				<var name="question4_answer4" />
+				<var name="question4_good_answer" />
+				<var name="question4_good_indx" />
+				<var name="question5_label" />
+				<var name="question5_answer1" />
+				<var name="question5_answer2" />
+				<var name="question5_answer3" />
+				<var name="question5_answer4" />
+				<var name="question5_good_answer" />
+				<var name="question5_good_indx" />
+				<var name="question6_label" />
+				<var name="question6_answer1" />
+				<var name="question6_answer2" />
+				<var name="question6_answer3" />
+				<var name="question6_answer4" />
+				<var name="question6_good_answer" />
+				<var name="question6_good_indx" />
+				<var name="question7_label" />
+				<var name="question7_answer1" />
+				<var name="question7_answer2" />
+				<var name="question7_answer3" />
+				<var name="question7_answer4" />
+				<var name="question7_good_answer" />
+				<var name="question7_good_indx" />
+				<var name="question8_label" />
+				<var name="question8_answer1" />
+				<var name="question8_answer2" />
+				<var name="question8_answer3" />
+				<var name="question8_answer4" />
+				<var name="question8_good_answer" />
+				<var name="question8_good_indx" />
+				<var name="question9_label" />
+				<var name="question9_answer1" />
+				<var name="question9_answer2" />
+				<var name="question9_answer3" />
+				<var name="question9_answer4" />
+				<var name="question9_good_answer" />
+				<var name="question9_good_indx" />
+				<var name="question10_label" />
+				<var name="question10_answer1" />
+				<var name="question10_answer2" />
+				<var name="question10_answer3" />
+				<var name="question10_answer4" />
+				<var name="question10_good_answer" />
+				<var name="question10_good_indx" />
+				<var name="question11_label" />
+				<var name="question11_answer1" />
+				<var name="question11_answer2" />
+				<var name="question11_answer3" />
+				<var name="question11_answer4" />
+				<var name="question11_good_answer" />
+				<var name="question11_good_indx" />
+				<var name="question12_label" />
+				<var name="question12_answer1" />
+				<var name="question12_answer2" />
+				<var name="question12_answer3" />
+				<var name="question12_answer4" />
+				<var name="question12_good_answer" />
+				<var name="question12_good_indx" />
+				<var name="question13_label" />
+				<var name="question13_answer1" />
+				<var name="question13_answer2" />
+				<var name="question13_answer3" />
+				<var name="question13_answer4" />
+				<var name="question13_good_answer" />
+				<var name="question13_good_indx" />
+				<var name="question14_label" />
+				<var name="question14_answer1" />
+				<var name="question14_answer2" />
+				<var name="question14_answer3" />
+				<var name="question14_answer4" />
+				<var name="question14_good_answer" />
+				<var name="question14_good_indx" />
+				<var name="question15_label" />
+				<var name="question15_answer1" />
+				<var name="question15_answer2" />
+				<var name="question15_answer3" />
+				<var name="question15_answer4" />
+				<var name="question15_good_answer" />
+				<var name="question15_good_indx" />
+				<var name="question16_label" />
+				<var name="question16_answer1" />
+				<var name="question16_answer2" />
+				<var name="question16_answer3" />
+				<var name="question16_answer4" />
+				<var name="question16_good_answer" />
+				<var name="question16_good_indx" />
+				<var name="question17_label" />
+				<var name="question17_answer1" />
+				<var name="question17_answer2" />
+				<var name="question17_answer3" />
+				<var name="question17_answer4" />
+				<var name="question17_good_answer" />
+				<var name="question17_good_indx" />
+				<var name="question18_label" />
+				<var name="question18_answer1" />
+				<var name="question18_answer2" />
+				<var name="question18_answer3" />
+				<var name="question18_answer4" />
+				<var name="question18_good_answer" />
+				<var name="question18_good_indx" />
+				<var name="question19_label" />
+				<var name="question19_answer1" />
+				<var name="question19_answer2" />
+				<var name="question19_answer3" />
+				<var name="question19_answer4" />
+				<var name="question19_good_answer" />
+				<var name="question19_good_indx" />
+				<var name="question20_label" />
+				<var name="question20_answer1" />
+				<var name="question20_answer2" />
+				<var name="question20_answer3" />
+				<var name="question20_answer4" />
+				<var name="question20_good_answer" />
+				<var name="question20_good_indx" />
+			</setdynvars>
+			<setdynvars sourcetype="file" fileid="top_rank" delimiter="%%"
+				order="iter">
+				<var name="top_score" />
+			</setdynvars>
+			<transaction name="player_tx">
+				<!-- max logintimeout is 20 s -->
+				<thinktime min="1" max="8" random="true"></thinktime>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"score":"%%_score20%%","top_scores":%%_top_score%%,"before":.*mail.*%%_before_mail%%.*scores.*%%_before_score%%.*firstname.*%%_before_firstname%%.*lastname.*%%_before_lastname%%.*,"after":.*mail.*%%_after_mail%%.*scores.*%%_after_score%%.*firstname.*%%_after_firstname%%.*lastname.*%%_after_lastname%%.*}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"score":"%%_score20%%","top_scores":%%_top_score%%,"before":.*mail.*%%_before_mail%%.*scores.*%%_before_score%%.*firstname.*%%_before_firstname%%.*lastname.*%%_before_lastname%%.*,"after":.*mail.*%%_after_mail%%.*scores.*%%_after_score%%.*firstname.*%%_after_firstname%%.*lastname.*%%_after_lastname%%.*}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/score?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<!-- max logintimeout is 20 s -->
+				<thinktime min="1" max="8" random="true"></thinktime>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{.*user_answers.*"%%_answer1%%","%%_answer2%%","%%_answer3%%","%%_answer4%%","%%_answer5%%","%%_answer6%%","%%_answer7%%","%%_answer8%%","%%_answer9%%","%%_answer10%%","%%_answer11%%","%%_answer12%%","%%_answer13%%","%%_answer14%%","%%_answer15%%","%%_answer16%%","%%_answer17%%","%%_answer18%%","%%_answer19%%","%%_answer20%%".*good_answers.*"%%_question1_good_indx%%","%%_question2_good_indx%%","%%_question3_good_indx%%","%%_question4_good_indx%%","%%_question5_good_indx%%","%%_question6_good_indx%%","%%_question7_good_indx%%","%%_question8_good_indx%%","%%_question9_good_indx%%","%%_question10_good_indx%%","%%_question11_good_indx%%","%%_question12_good_indx%%","%%_question13_good_indx%%","%%_question14_good_indx%%","%%_question15_good_indx%%","%%_question16_good_indx%%","%%_question17_good_indx%%","%%_question18_good_indx%%","%%_question19_good_indx%%","%%_question20_good_indx%%".*}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{.*user_answers.*"%%_answer1%%","%%_answer2%%","%%_answer3%%","%%_answer4%%","%%_answer5%%","%%_answer6%%","%%_answer7%%","%%_answer8%%","%%_answer9%%","%%_answer10%%","%%_answer11%%","%%_answer12%%","%%_answer13%%","%%_answer14%%","%%_answer15%%","%%_answer16%%","%%_answer17%%","%%_answer18%%","%%_answer19%%","%%_answer20%%".*good_answers.*"%%_question1_good_indx%%","%%_question2_good_indx%%","%%_question3_good_indx%%","%%_question4_good_indx%%","%%_question5_good_indx%%","%%_question6_good_indx%%","%%_question7_good_indx%%","%%_question8_good_indx%%","%%_question9_good_indx%%","%%_question10_good_indx%%","%%_question11_good_indx%%","%%_question12_good_indx%%","%%_question13_good_indx%%","%%_question14_good_indx%%","%%_question15_good_indx%%","%%_question16_good_indx%%","%%_question17_good_indx%%","%%_question18_good_indx%%","%%_question19_good_indx%%","%%_question20_good_indx%%".*}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer1%%","good_answer":"%%_question1_good_indx%%","question":"%%_question1_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer1%%","good_answer":"%%_question1_good_indx%%","question":"%%_question1_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/1?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer2%%","good_answer":"%%_question2_good_indx%%","question":"%%_question2_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer2%%","good_answer":"%%_question2_good_indx%%","question":"%%_question2_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/2?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer3%%","good_answer":"%%_question3_good_indx%%","question":"%%_question3_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer3%%","good_answer":"%%_question3_good_indx%%","question":"%%_question3_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/3?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer4%%","good_answer":"%%_question4_good_indx%%","question":"%%_question4_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer4%%","good_answer":"%%_question4_good_indx%%","question":"%%_question4_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/4?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer5%%","good_answer":"%%_question5_good_indx%%","question":"%%_question5_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer5%%","good_answer":"%%_question5_good_indx%%","question":"%%_question5_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/5?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer6%%","good_answer":"%%_question6_good_indx%%","question":"%%_question6_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer6%%","good_answer":"%%_question6_good_indx%%","question":"%%_question6_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/6?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer7%%","good_answer":"%%_question7_good_indx%%","question":"%%_question7_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer7%%","good_answer":"%%_question7_good_indx%%","question":"%%_question7_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/7?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer8%%","good_answer":"%%_question8_good_indx%%","question":"%%_question8_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer8%%","good_answer":"%%_question8_good_indx%%","question":"%%_question8_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/8?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer9%%","good_answer":"%%_question9_good_indx%%","question":"%%_question9_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer9%%","good_answer":"%%_question9_good_indx%%","question":"%%_question9_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/9?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer10%%","good_answer":"%%_question10_good_indx%%","question":"%%_question10_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer10%%","good_answer":"%%_question10_good_indx%%","question":"%%_question10_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/10?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer11%%","good_answer":"%%_question11_good_indx%%","question":"%%_question11_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer11%%","good_answer":"%%_question11_good_indx%%","question":"%%_question11_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/11?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer12%%","good_answer":"%%_question12_good_indx%%","question":"%%_question12_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer12%%","good_answer":"%%_question12_good_indx%%","question":"%%_question12_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/12?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer13%%","good_answer":"%%_question13_good_indx%%","question":"%%_question13_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer13%%","good_answer":"%%_question13_good_indx%%","question":"%%_question13_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/13?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer14%%","good_answer":"%%_question14_good_indx%%","question":"%%_question14_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer14%%","good_answer":"%%_question14_good_indx%%","question":"%%_question14_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/14?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer15%%","good_answer":"%%_question15_good_indx%%","question":"%%_question15_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer15%%","good_answer":"%%_question15_good_indx%%","question":"%%_question15_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/15?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer16%%","good_answer":"%%_question16_good_indx%%","question":"%%_question16_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer16%%","good_answer":"%%_question16_good_indx%%","question":"%%_question16_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/16?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer17%%","good_answer":"%%_question17_good_indx%%","question":"%%_question17_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer17%%","good_answer":"%%_question17_good_indx%%","question":"%%_question17_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/17?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer18%%","good_answer":"%%_question18_good_indx%%","question":"%%_question18_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer18%%","good_answer":"%%_question18_good_indx%%","question":"%%_question18_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/18?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer19%%","good_answer":"%%_question19_good_indx%%","question":"%%_question19_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer19%%","good_answer":"%%_question19_good_indx%%","question":"%%_question19_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/19?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+				<request subst="true">
+					<match do="log" skip_headers="true" subst="true" when="nomatch"><![CDATA[{"user_answer":"%%_answer20%%","good_answer":"%%_question20_good_indx%%","question":"%%_question20_label%%"}]]></match>
+					<match do="log" skip_headers="true" subst="true" when="match"><![CDATA[{"user_answer":"%%_answer20%%","good_answer":"%%_question20_good_indx%%","question":"%%_question20_label%%"}]]></match>
+					<match do="continue" when="match">HTTP/1.1 200 OK</match>
+					<match do="abort" when="nomatch">HTTP/1.1 200 OK</match>
+					<http
+						url="/api/audit/20?user_mail=%%_mail%%&amp;authentication_key=%%_key%%"
+						method="GET" version="1.1">
+						<http_header name="Content-type" value="application/json" />
+					</http>
+				</request>
+			</transaction>
+		</session>
+	</sessions>
+</tsung>

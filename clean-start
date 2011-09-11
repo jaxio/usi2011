@@ -1,0 +1,5 @@
+#!/bin/bash
+./src/main/cassandra/recreate
+./restart-web-servers
+./src/main/wget/game-flush-users
+./src/main/jmeter/insert_users

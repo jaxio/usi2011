@@ -1,0 +1,2 @@
+mkdir -p `dirname $0`/logs
+${JMETER_HOME}/bin/jmeter -n -t `dirname $0`/user_session.jmx -l `dirname $0`/logs/user_session.log

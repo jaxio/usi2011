@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tsung SYSTEM "??/tsung-1.3.3/tsung-1.0.dtd">
+
+
+<!-- dumptraffic : true, light or false -->
+<!-- log levels : emergency, critical, error, warning,notice, info, debug -->
+<tsung loglevel="debug" version="1.0" dumptraffic="true">
+    
+    <!-- Client side setup -->
+    <clients>
+        <client host="localhost" use_controller_vm="true" maxusers="1000"/>
+    </clients>
+    
+    <!-- TODO: distribute the injection load onto several tsung injectors -->
+    <!--      <clients>
+    <client host="injector" weight="1" maxusers="800">
+    <ip value="10.9.195.12"></ip>
+    <ip value="10.9.195.13"></ip>
+    </client>
+    <client host="memphis" weight="3" maxusers="600" cpu="2"/>
+    </clients>
+    -->
+    
+    <!-- Server side setup -->
+    <servers>
+        <server host="localhost" port="9090" type="tcp"/>
+    </servers>
+    
+    <!-- TODO: review how that f*****g monitoring works -->
+    <!-- to start os monitoring (cpu, network, memory). Use an erlang
+    agent on the remote machine or SNMP. erlang is the default -->
+    <!-- <monitoring> -->
+    <!-- <monitor host="192.168.1.1" type="erlang"/> -->
+    <!-- <monitor host="192.168.1.201" type="erlang"/> -->
+    <!-- </monitoring> -->
+    
+    <load>
+        <!-- several arrival phases can be set: for each phase, you can set
+        the mean inter-arrival time between new clients and the phase
+        duration -->
+        <arrivalphase phase="1" duration="20" unit="second">
+            <users arrivalrate="50" unit="second" />
+        </arrivalphase>
+        
+        <!-- we start when all users are here -->
+        <user session="play_game" start_time="20" unit="second"/>
+        <!-- a single Game session injection -->
+        <!--  <user session="user_creation" start_time="1" unit="second"/> -->
+        
+        <!--           <arrivalphase phase="2" duration="2" unit="minute">
+        <users interarrival="1" unit="second"/>
+        </arrivalphase>
+        -->
+    </load>
+    
+    
+    
+    <options>
+        <option type="ts_http" name="user_agent"/>
+        <option name="file_server" id="data" value="./round_data.csv"/>
+        <option name="file_server" id="questions" value="./questions.csv"/>
+        <option name="file_server" id="top_rank" value="./top_scores.csv"/>
+    </options>
+    
+    <!-- start a session for a http user. the probability is the
+    frequency of this type os session. The sum of all session's
+    probabilities must be 100 -->
+    
+    <sessions>
+
+        <session name="play_game" probability="100" type="ts_http">
+            
+            <setdynvars sourcetype="file" fileid="data" delimiter="%%" order="iter">
+                <var name="mail"/>
+                <var name="password"/>
+                <var name="answer1"/>
+                <var name="is_right1"/>
+                <var name="score1"/>             
+                <var name="answer2"/>
+                <var name="is_right2"/>
+                <var name="score2"/>
+                <var name="answer3"/>
+                <var name="is_right3"/>
+                <var name="score3"/>
+                <var name="answer4"/>
+                <var name="is_right4"/>
+                <var name="score4"/>
+                <var name="answer5"/>
+                <var name="is_right5"/>
+                <var name="score5"/>
+                <var name="answer6"/>
+                <var name="is_right6"/>
+                <var name="score6"/>
+                <var name="answer7"/>
+                <var name="is_right7"/>
+                <var name="score7"/>
+                <var name="answer8"/>
+                <var name="is_right8"/>
+                <var name="score8"/>
+                <var name="answer9"/>
+                <var name="is_right9"/>
+                <var name="score9"/>
+                <var name="answer10"/>
+                <var name="is_right10"/>
+                <var name="score10"/>
+                <var name="answer11"/>
+                <var name="is_right11"/>
+                <var name="score11"/>
+                <var name="answer12"/>
+                <var name="is_right12"/>
+                <var name="score12"/>
+                <var name="answer13"/>
+                <var name="is_right13"/>
+                <var name="score13"/>
+                <var name="answer14"/>
+                <var name="is_right14"/>
+                <var name="score14"/>
+                <var name="answer15"/>
+                <var name="is_right15"/>
+                <var name="score15"/>
+                <var name="answer16"/>
+                <var name="is_right16"/>
+                <var name="score16"/>
+                <var name="answer17"/>
+                <var name="is_right17"/>
+                <var name="score17"/>
+                <var name="answer18"/>
+                <var name="is_right18"/>
+                <var name="score18"/>
+                <var name="answer19"/>
+                <var name="is_right19"/>
+                <var name="score19"/>
+                <var name="answer20"/>
+                <var name="is_right20"/>
+                <var name="score20"/>
+                <var name="before_mail"/>
+                <var name="before_score"/>
+                <var name="before_firstname"/>
+                <var name="before_lastname"/>
+                <var name="after_mail"/>
+                <var name="after_score"/>
+                <var name="after_firstname"/>
+                <var name="after_lastname"/>
+
+            </setdynvars>
+              
+             <setdynvars sourcetype="file" fileid="questions" delimiter="%%" order="iter">
+                <var name="question1_label"/>
+                <var name="question1_answer1"/>
+                <var name="question1_answer2"/>
+                <var name="question1_answer3"/>
+                <var name="question1_answer4"/>
+                <var name="question1_good_answer"/>
+                <var name="question1_good_indx"/>
+                <var name="question2_label"/>
+                <var name="question2_answer1"/>
+                <var name="question2_answer2"/>
+                <var name="question2_answer3"/>
+                <var name="question2_answer4"/>
+                <var name="question2_good_answer"/>
+                <var name="question2_good_indx"/>
+                <var name="question3_label"/>
+                <var name="question3_answer1"/>
+                <var name="question3_answer2"/>
+                <var name="question3_answer3"/>
+                <var name="question3_answer4"/>
+                <var name="question3_good_answer"/>
+                <var name="question3_good_indx"/>
+                <var name="question4_label"/>
+                <var name="question4_answer1"/>
+                <var name="question4_answer2"/>
+                <var name="question4_answer3"/>
+                <var name="question4_answer4"/>
+                <var name="question4_good_answer"/>
+                <var name="question4_good_indx"/>
+                <var name="question5_label"/>
+                <var name="question5_answer1"/>
+                <var name="question5_answer2"/>
+                <var name="question5_answer3"/>
+                <var name="question5_answer4"/>
+                <var name="question5_good_answer"/>
+                <var name="question5_good_indx"/>
+                <var name="question6_label"/>
+                <var name="question6_answer1"/>
+                <var name="question6_answer2"/>
+                <var name="question6_answer3"/>
+                <var name="question6_answer4"/>
+                <var name="question6_good_answer"/>
+                <var name="question6_good_indx"/>
+                <var name="question7_label"/>
+                <var name="question7_answer1"/>
+                <var name="question7_answer2"/>
+                <var name="question7_answer3"/>
+                <var name="question7_answer4"/>
+                <var name="question7_good_answer"/>
+                <var name="question7_good_indx"/>
+                <var name="question8_label"/>
+                <var name="question8_answer1"/>
+                <var name="question8_answer2"/>
+                <var name="question8_answer3"/>
+                <var name="question8_answer4"/>
+                <var name="question8_good_answer"/>
+                <var name="question8_good_indx"/>
+                <var name="question9_label"/>
+                <var name="question9_answer1"/>
+                <var name="question9_answer2"/>
+                <var name="question9_answer3"/>
+                <var name="question9_answer4"/>
+                <var name="question9_good_answer"/>
+                <var name="question9_good_indx"/>
+                <var name="question10_label"/>
+                <var name="question10_answer1"/>
+                <var name="question10_answer2"/>
+                <var name="question10_answer3"/>
+                <var name="question10_answer4"/>
+                <var name="question10_good_answer"/>
+                <var name="question10_good_indx"/>
+                <var name="question11_label"/>
+                <var name="question11_answer1"/>
+                <var name="question11_answer2"/>
+                <var name="question11_answer3"/>
+                <var name="question11_answer4"/>
+                <var name="question11_good_answer"/>
+                <var name="question11_good_indx"/>
+                <var name="question12_label"/>
+                <var name="question12_answer1"/>
+                <var name="question12_answer2"/>
+                <var name="question12_answer3"/>
+                <var name="question12_answer4"/>
+                <var name="question12_good_answer"/>
+                <var name="question12_good_indx"/>
+                <var name="question13_label"/>
+                <var name="question13_answer1"/>
+                <var name="question13_answer2"/>
+                <var name="question13_answer3"/>
+                <var name="question13_answer4"/>
+                <var name="question13_good_answer"/>
+                <var name="question13_good_indx"/>
+                <var name="question14_label"/>
+                <var name="question14_answer1"/>
+                <var name="question14_answer2"/>
+                <var name="question14_answer3"/>
+                <var name="question14_answer4"/>
+                <var name="question14_good_answer"/>
+                <var name="question14_good_indx"/>
+                <var name="question15_label"/>
+                <var name="question15_answer1"/>
+                <var name="question15_answer2"/>
+                <var name="question15_answer3"/>
+                <var name="question15_answer4"/>
+                <var name="question15_good_answer"/>
+                <var name="question15_good_indx"/>
+                <var name="question16_label"/>
+                <var name="question16_answer1"/>
+                <var name="question16_answer2"/>
+                <var name="question16_answer3"/>
+                <var name="question16_answer4"/>
+                <var name="question16_good_answer"/>
+                <var name="question16_good_indx"/>
+                <var name="question17_label"/>
+                <var name="question17_answer1"/>
+                <var name="question17_answer2"/>
+                <var name="question17_answer3"/>
+                <var name="question17_answer4"/>
+                <var name="question17_good_answer"/>
+                <var name="question17_good_indx"/>
+                <var name="question18_label"/>
+                <var name="question18_answer1"/>
+                <var name="question18_answer2"/>
+                <var name="question18_answer3"/>
+                <var name="question18_answer4"/>
+                <var name="question18_good_answer"/>
+                <var name="question18_good_indx"/>
+                <var name="question19_label"/>
+                <var name="question19_answer1"/>
+                <var name="question19_answer2"/>
+                <var name="question19_answer3"/>
+                <var name="question19_answer4"/>
+                <var name="question19_good_answer"/>
+                <var name="question19_good_indx"/>
+                <var name="question20_label"/>
+                <var name="question20_answer1"/>
+                <var name="question20_answer2"/>
+                <var name="question20_answer3"/>
+                <var name="question20_answer4"/>
+                <var name="question20_good_answer"/>
+                <var name="question20_good_indx"/>
+            </setdynvars>
+            
+            <setdynvars sourcetype="file" fileid="top_rank" delimiter="%%" order="iter">
+                <var name="top_score"/>
+		    </setdynvars>
+              
+            <transaction name="player_tx"> 
+            
+                 
+                <!-- max logintimeout is 20 s -->
+                <thinktime min="1" max="18" random="true"></thinktime>
+                <request subst="true"> 
+                    <match do="log" when="match">HTTP/1.1 201 Created</match>
+                    <match do="abort" when="nomatch">HTTP/1.1 201 Created</match>
+                    <http url="/api/login" method="POST" version="1.1" contents='{&quot;mail&quot;:&quot;%%_mail%%&quot;,&quot;password&quot;:&quot;%%_password%%&quot;}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                              
+                <thinktime min="1" max="2" random="true"></thinktime>
+                <request subst="true">
+                    <match do="log" subst="true" when="match"><![CDATA[{"question":"%%_question1_label%%","answer_1":"%%_question1_answer1%%","answer_2":"%%_question1_answer2%%","answer_3":"%%_question1_answer3%%","answer_4":"%%_question1_answer4%%","score":"0"}]]></match>
+                   	<match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                    <http url="/api/question/1" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="4" random="true"></thinktime>
+       
+                <request subst="true">
+	                <match do="log" subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right1%%","good_answer":"%%_question1_good_answer%%","score":"%%_score1%%"}]]></match>
+                    <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                    <http url="/api/answer/1" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer1%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	                <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question2_label%%","answer_1":"%%_question2_answer1%%","answer_2":"%%_question2_answer2%%","answer_3":"%%_question2_answer3%%","answer_4":"%%_question2_answer4%%","score":"%%_score1%%"}]]></match>
+                   	<match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                   	<http url="/api/question/2" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+                  <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right2%%","good_answer":"%%_question2_good_answer%%","score":"%%_score2%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                      <http url="/api/answer/2" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer2%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question3_label%%","answer_1":"%%_question3_answer1%%","answer_2":"%%_question3_answer2%%","answer_3":"%%_question3_answer3%%","answer_4":"%%_question3_answer4%%","score":"%%_score2%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/3" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+                  <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right3%%","good_answer":"%%_question3_good_answer%%","score":"%%_score3%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                      <http url="/api/answer/3" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer3%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+                 <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question4_label%%","answer_1":"%%_question4_answer1%%","answer_2":"%%_question4_answer2%%","answer_3":"%%_question4_answer3%%","answer_4":"%%_question4_answer4%%","score":"%%_score3%%"}]]></match>
+                 <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/4" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right4%%","good_answer":"%%_question4_good_answer%%","score":"%%_score4%%"}]]></match>                
+                  <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                      <http url="/api/answer/4" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer4%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question5_label%%","answer_1":"%%_question5_answer1%%","answer_2":"%%_question5_answer2%%","answer_3":"%%_question5_answer3%%","answer_4":"%%_question5_answer4%%","score":"%%_score4%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/5" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>    
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	               <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right5%%","good_answer":"%%_question5_good_answer%%","score":"%%_score5%%"}]]></match>               
+                   <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                     <http url="/api/answer/5" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer5%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question6_label%%","answer_1":"%%_question6_answer1%%","answer_2":"%%_question6_answer2%%","answer_3":"%%_question6_answer3%%","answer_4":"%%_question6_answer4%%","score":"%%_score5%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/6" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	             <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right6%%","good_answer":"%%_question6_good_answer%%","score":"%%_score6%%"}]]></match>               
+                 <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                       <http url="/api/answer/6" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer6%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question7_label%%","answer_1":"%%_question7_answer1%%","answer_2":"%%_question7_answer2%%","answer_3":"%%_question7_answer3%%","answer_4":"%%_question7_answer4%%","score":"%%_score6%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                     <http url="/api/question/7" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	             <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right7%%","good_answer":"%%_question7_good_answer%%","score":"%%_score7%%"}]]></match>               
+                 <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                      <http url="/api/answer/7" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer7%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+					<match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question8_label%%","answer_1":"%%_question8_answer1%%","answer_2":"%%_question8_answer2%%","answer_3":"%%_question8_answer3%%","answer_4":"%%_question8_answer4%%","score":"%%_score7%%"}]]></match>
+                   <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/8" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	               <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right8%%","good_answer":"%%_question8_good_answer%%","score":"%%_score8%%"}]]></match>                
+                   <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                     <http url="/api/answer/8" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer8%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question9_label%%","answer_1":"%%_question9_answer1%%","answer_2":"%%_question9_answer2%%","answer_3":"%%_question9_answer3%%","answer_4":"%%_question9_answer4%%","score":"%%_score8%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/9" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right9%%","good_answer":"%%_question9_good_answer%%","score":"%%_score9%%"}]]></match>              
+                  <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                      <http url="/api/answer/9" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer9%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+   	             <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question10_label%%","answer_1":"%%_question10_answer1%%","answer_2":"%%_question10_answer2%%","answer_3":"%%_question10_answer3%%","answer_4":"%%_question10_answer4%%","score":"%%_score9%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/10" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	             <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right10%%","good_answer":"%%_question10_good_answer%%","score":"%%_score10%%"}]]></match>               
+                 <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                       <http url="/api/answer/10" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer10%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+                <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question11_label%%","answer_1":"%%_question11_answer1%%","answer_2":"%%_question11_answer2%%","answer_3":"%%_question11_answer3%%","answer_4":"%%_question11_answer4%%","score":"%%_score10%%"}]]></match>
+                 <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                       <http url="/api/question/11" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right11%%","good_answer":"%%_question11_good_answer%%","score":"%%_score11%%"}]]></match>               
+                  <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                      <http url="/api/answer/11" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer11%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+   	             <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question12_label%%","answer_1":"%%_question12_answer1%%","answer_2":"%%_question12_answer2%%","answer_3":"%%_question12_answer3%%","answer_4":"%%_question12_answer4%%","score":"%%_score11%%"}]]></match>
+	             <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                        <http url="/api/question/12" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+				
+                <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+                <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right12%%","good_answer":"%%_question12_good_answer%%","score":"%%_score12%%"}]]></match>
+                <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                        <http url="/api/answer/12" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer12%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question13_label%%","answer_1":"%%_question13_answer1%%","answer_2":"%%_question13_answer2%%","answer_3":"%%_question13_answer3%%","answer_4":"%%_question13_answer4%%","score":"%%_score12%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/13" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+               
+			    <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right13%%","good_answer":"%%_question13_good_answer%%","score":"%%_score13%%"}]]></match>                
+                  <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                     <http url="/api/answer/13" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer13%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question14_label%%","answer_1":"%%_question14_answer1%%","answer_2":"%%_question14_answer2%%","answer_3":"%%_question14_answer3%%","answer_4":"%%_question14_answer4%%","score":"%%_score13%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                     <http url="/api/question/14" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+               
+			    <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+      	          <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right14%%","good_answer":"%%_question14_good_answer%%","score":"%%_score14%%"}]]></match>
+  		          <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                          <http url="/api/answer/14" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer14%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+               		<match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question15_label%%","answer_1":"%%_question15_answer1%%","answer_2":"%%_question15_answer2%%","answer_3":"%%_question15_answer3%%","answer_4":"%%_question15_answer4%%","score":"%%_score14%%"}]]></match>
+	             	<match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                          <http url="/api/question/15" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+               
+			    <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	              <match do="log"  subst="true" when="nomatch"><![CDATA[{"are_u_right":"%%_is_right15%%","good_answer":"%%_question15_good_answer%%","score":"%%_score15%%"}]]></match>              
+                  <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                      <http url="/api/answer/15" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer15%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+               	<match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question16_label%%","answer_1":"%%_question16_answer1%%","answer_2":"%%_question16_answer2%%","answer_3":"%%_question16_answer3%%","answer_4":"%%_question16_answer4%%","score":"%%_score15%%"}]]></match>
+               <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                        <http url="/api/question/16" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+               
+			    <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	                <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right16%%","good_answer":"%%_question16_good_answer%%","score":"%%_score16%%"}]]></match>            
+                 <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                       <http url="/api/answer/16" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer16%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+                <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question17_label%%","answer_1":"%%_question17_answer1%%","answer_2":"%%_question17_answer2%%","answer_3":"%%_question17_answer3%%","answer_4":"%%_question17_answer4%%","score":"%%_score16%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/17" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+               
+			    <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	                <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right17%%","good_answer":"%%_question17_good_answer%%","score":"%%_score17%%"}]]></match>
+		           <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                        <http url="/api/answer/17" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer17%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+                <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question18_label%%","answer_1":"%%_question18_answer1%%","answer_2":"%%_question18_answer2%%","answer_3":"%%_question18_answer3%%","answer_4":"%%_question18_answer4%%","score":"%%_score17%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/18" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+               
+			    <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	                <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right18%%","good_answer":"%%_question18_good_answer%%","score":"%%_score18%%"}]]></match>                
+                   <match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                     <http url="/api/answer/18" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer18%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+                <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question19_label%%","answer_1":"%%_question19_answer1%%","answer_2":"%%_question19_answer2%%","answer_3":"%%_question19_answer3%%","answer_4":"%%_question19_answer4%%","score":"%%_score18%%"}]]></match>
+                  <match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                      <http url="/api/question/19" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+               
+			    <thinktime min="1" max="4" random="true"></thinktime>
+                
+                <request subst="true">
+	                <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right19%%","good_answer":"%%_question19_good_answer%%","score":"%%_score19%%"}]]></match>                
+                  	<match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                     <http url="/api/answer/19" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer19%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="1" max="2" random="true"></thinktime>
+                
+                <request subst="true">
+	                <match do="log"  subst="true" when="match"><![CDATA[{"question":"%%_question20_label%%","answer_1":"%%_question20_answer1%%","answer_2":"%%_question20_answer2%%","answer_3":"%%_question20_answer3%%","answer_4":"%%_question20_answer4%%","score":"%%_score19%%"}]]></match>
+                  	<match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                     <http url="/api/question/20" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                 
+				<thinktime min="1" max="4" random="true"></thinktime>
+                
+				 <request subst="true">
+	                <match do="log"  subst="true" when="match"><![CDATA[{"are_u_right":"%%_is_right20%%","good_answer":"%%_question20_good_answer%%","score":"%%_score20%%"}]]></match>
+                   	<match do="log" when="nomatch">HTTP/1.1 201 Created</match>
+                     <http url="/api/answer/20" method="POST" version="1.1" contents='{&quot;answer&quot;:%%_answer20%%}'>
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+                
+                <thinktime min="3" max="60" random="true"></thinktime>
+                
+				 <request subst="true">
+				  	<match do="log"  subst="true" when="match"><![CDATA[{"score":"%%_score20%%","top_scores":%%_top_score%%,"before":.*mail.*%%_before_mail%%.*scores.*%%_before_score%%.*firstname.*%%_before_firstname%%.*lastname.*%%_before_lastname%%.*,"after":.*mail.*%%_after_mail%%.*scores.*%%_after_score%%.*firstname.*%%_after_firstname%%.*lastname.*%%_after_lastname%%.*}]]></match>
+                   	<match do="log" when="nomatch">HTTP/1.1 200 OK</match>
+                     <http url="/api/ranking" method="GET" version="1.1">
+                        <http_header name="Content-type" value="application/json"/>
+                    </http>
+                </request>
+
+            </transaction>
+                                    
+        </session>
+    </sessions>
+</tsung>

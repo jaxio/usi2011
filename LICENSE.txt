@@ -1,0 +1,17 @@
+JAXIO & FRIENDS TEAM Solution
+
+ Le code sera certainement Open Sourcé en fin de compétition 
+ sous une licence restant à définir.
+ 
+ Pour le moment le code source est strictement confidentiel.
+ Tous droits réservés Jaxio SARL & Friends 
+ 
+ Aucune utilisation, reproduction, diffusion, même partielle 
+ permise sans accord préalable de Jaxio SARL & Friends
+ 
+    Julien Dubois
+    Bernard Pons
+    Florent Ramière
+    Nicolas Romanetti
+ 
+ Contact: usi2011team@jaxio.com

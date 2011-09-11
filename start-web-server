@@ -1,0 +1,14 @@
+mkdir -p `dirname $0`target/
+port=$1
+echo Launching servers listering on $port
+mvn -Pserver -Dhttp.server.port=$port > target/server-port-$port.log &
+echo Waiting for the servers to be up and listening
+succeed=`nc -z localhost $port | grep -i succeed | wc -l`
+while [ $succeed -lt 1 ]
+do
+	echo -n .
+	sleep 1
+	succeed=`nc -z localhost $port | grep -i succeed | wc -l`
+done
+echo 
+echo Server on port $port is ready

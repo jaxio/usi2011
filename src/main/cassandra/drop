@@ -1,0 +1,13 @@
+echo Killing cassandra
+succeed=1
+until [ $succeed -eq 0 ]
+do
+    jps | grep CassandraDaemon | cut -f 1 -d ' ' | xargs kill -9
+    succeed=`jps | grep CassandraDaemon| wc -l`
+done
+echo Cassandra is down
+
+echo Removing cassandra storage
+rm -rf /opt/usi2011_jaxio/data/*
+rm -rf /var/lib/cassandra/*
+rm -rf /usr/local/var/lib/cassandra/*

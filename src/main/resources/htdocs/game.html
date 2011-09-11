@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>USI 2011 test client</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+    <style>
+        body {
+            padding: 50px 80px;
+            font-family: "Lucida Grande", "bitstream vera sans", "trebuchet ms", sans-serif, verdana;
+        }
+
+        a:active {
+            outline: none;
+        }
+
+        :focus {
+            -moz-outline-style: none;
+        }
+
+        /* form style */
+        form {
+            background: #333 repeat-x;
+            padding: 15px 20px;
+            color: #eee;
+            width: 700px;
+            margin: 0 auto;
+            position: relative;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+        }
+
+        /* nested fieldset */
+        fieldset {
+            border: 0;
+            margin: 5;
+            padding: 0;
+            background: #333333 url(img/logo_usi.png) no-repeat scroll 600px 30px;
+        }
+
+        h3 {
+            color: #eee;
+            margin-top: 0px;
+        }
+
+        p {
+            font-size: 11px;
+        }
+
+        /* input field */
+        input, button {
+            border: 1px solid #444;
+            background-color: #666;
+            padding: 5px;
+            color: #ddd;
+            font-size: 16px; /* CSS3 spicing */
+            text-shadow: 1px 1px 1px #000;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+        }
+
+        input:focus {
+            color: #fff;
+            background-color: #777;
+        }
+
+        input:active {
+            background-color: #888;
+        }
+
+        .question {
+            background: #6666ff repeat-x;
+            font-size: 24px;
+            padding: 15px 20px;
+            color: #ffffff;
+            width: 650px;
+            margin: 5px auto;
+            position: relative;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .answer {
+            background: #cccccc repeat-x;
+            padding: 15px 20px;
+            color: #000000;
+            width: 600px;
+            margin: 5px auto;
+            position: relative;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .good_answer {
+            background: #009900 repeat-x;
+            font-size: 24px;
+            padding: 15px 20px;
+            color: #ffffff;
+            width: 650px;
+            margin: 5px auto;
+            position: relative;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .bad_answer {
+            background: #ff3333 repeat-x;
+            font-size: 24px;
+            padding: 15px 20px;
+            color: #ffffff;
+            width: 650px;
+            margin: 5px auto;
+            position: relative;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        #status {
+            background: #555 repeat-x;
+            padding: 20px 20px;
+            color: #eee;
+            width: 700px;
+            margin: 0 auto;
+            position: relative;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+        }
+
+    </style>
+    <script type="text/javascript">
+    //The current question
+    n = 1;
+
+    $(function() {
+    	$("#loginForm").submit(function() {
+            $("#status").html("Submitting...");
+            var jsonPayload = '{ "mail" : "' + $("#email").val() +
+                    '", "password" : "' + $("#password").val() + '" }';
+            $.ajax({
+                type : "POST",
+                url : "api/login",
+                data : jsonPayload,
+                dataType : "json",
+                statusCode : {
+                    201 : function() {
+						$("#status").html("").hide();
+                        $("#loginForm").slideUp();
+                        $("#waitingForm").slideDown();
+                        getQuestion();
+					},
+					400 : function() {
+						$("#status").html("").hide();
+                        $("#loginForm").slideUp();
+                        $("#waitingForm").slideDown();
+                        getQuestion();
+						$("#status").html("You are already logged in").show();
+					},
+					401 : function(e) {
+						$("#status").html("Invalid user or password").show();
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+    function getQuestion() {
+            $.ajax({
+                type : "GET",
+                url : "api/question/" + n,
+                dataType : "json",
+                statusCode : {
+                    200 : function(question) {
+                        $("#status").html("").hide();
+                        $("#waitingForm").slideUp();
+                        $("#answerForm").slideUp();
+                        $("#questionNb").text("Question: " + n);
+                        $("#question").text(question.question);
+                        $("#score").text("Current score: " + question.score);
+                        $("#answer_1").text("1. " + question.answer_1);
+                        $("#answer_2").text("2. " + question.answer_2);
+                        $("#answer_3").text("3. " + question.answer_3);
+                        $("#answer_4").text("4. " + question.answer_4);
+                        $("#questionForm").slideDown();
+                    },
+                    400 : function(data) {
+                        $("#status").html("An error has occured while getting the question : " + data.responseText +"<br/>Trying next question").show();
+                        n++;
+                        if (n <=20)
+                        	getQuestion();
+                        else
+                        	getRanking();
+                    },
+                    401 : function() {
+                        $("#status").html("Invalid Session Key").show();
+                    }
+                }
+             });
+    }
+
+    function answer(a) {
+        if (n <= 20) {
+            var jsonPayload = '{ "answer" : "' + a + '" }';
+            $.ajax({
+                type : "POST",
+                url : "/api/answer/" + n,
+                data : jsonPayload,
+                dataType : "json",
+                statusCode : {
+                    201 : function (answer) {
+                        $("#status").html("").hide();
+                        $("#questionForm").slideUp();
+                        if (n < 20)
+                        	$("#next_question").text("Waiting for question #" + ++n + " to begin...");
+                        else {
+                        	$("#next_question").text("Waiting for ranking...");
+                        	n++;
+                        }
+                        $("#new_score").text("Your score: " + answer.score);
+                        if (answer.are_u_right == "true") {
+                            $("#are_u_right").text("Congratulations! That's the correct answer.");
+                            $("#are_u_right").removeClass("bad_answer");
+                            $("#are_u_right").addClass("good_answer");
+                        } else {
+                            $("#are_u_right").text("Wrong answer! Here's the correct answer:");
+                            $("#are_u_right").removeClass("good_answer");
+                            $("#are_u_right").addClass("bad_answer");
+                        }
+                        $("#good_answer").text(answer.good_answer);
+                        $("#answerForm").slideDown();
+						if ( n <= 20) {
+	                        getQuestion();
+	                    } else {
+	                        setTimeout("getRanking()", 10000);
+	                    }
+
+                    },
+                    400 : function() {
+						if ( n < 20) {
+	                        $("#status").html("Too late to answer. Wainting for next question...").show();
+	                        n++;
+	                        getQuestion();
+						} else {
+							$("#status").html("Too late to answer. Wainting for ranking...").show();
+							setTimeout("getRanking()", 10000);
+						}
+                    },
+                    401 : function() {
+                        $("#status").html("Invalid Session Key").show();
+                    }
+                }
+            });
+        }
+    }
+
+    function getRanking() {
+        $.ajax({
+            type : "GET",
+            url : "api/ranking",
+            dataType : "json",
+            statusCode : {
+                200 : function(ranking) {
+                    $("#status").html("").hide();
+
+                    $("#waitingForm").slideUp();
+                    $("#answerForm").slideUp();
+
+                    $("#rankingForm").slideDown();
+
+                    $("#final_score").html("Your score :" + ranking.score);
+                    top_scores = ranking.top_scores;
+                    top_scores_html = "";
+                    for (var x = 0; x < top_scores.mail.length; x++) {
+                        line = "<tr>";
+                        line += "<td>" + top_scores.firstname[x] + " " + top_scores.lastname[x] + "</td>"
+                        line += "<td> : " + top_scores.scores[x] + "</td>"
+                        line += "</tr>";
+                        top_scores_html += line;
+                    }
+                    $("#top_list").html(top_scores_html);
+
+                    before = ranking.before;
+					if (before.mail != null) {
+	                    before_html = "";
+	                    for (var x = 0; x < before.mail.length; x++) {
+	                        line = "<tr>";
+	                        line += "<td>" + before.firstname[x] + " " + before.lastname[x] + "</td>"
+	                        line += "<td> : " + before.scores[x] + "</td>"
+	                        line += "</tr>";
+	                        before_html += line;
+	                    }
+	                    $("#before_list").html(before_html);
+					} else {
+						$("#before_list").html("You're first!");
+					}
+
+                    
+                    after = ranking.after;
+					if (after.mail != null) {
+	                    after_html = "";
+	                    for (var x = 0; x < after.mail.length; x++) {
+	                        line = "<tr>";
+	                        line += "<td>" + after.firstname[x] + " " + after.lastname[x] + "</td>"
+	                        line += "<td> : " + after.scores[x] + "</td>"
+	                        line += "</tr>";
+	                        after_html += line;
+	                    }
+	                    $("#after_list").html(after_html);
+					} else {
+						$("#after_list").html("You're last!");
+					}
+                },
+                400 : function() {
+                    $("#status").html("The ranking is not ready yet.");
+                },
+                401 : function() {
+                    $("#status").html("Invalid Session Key");
+                }
+            }
+        });    
+    }
+
+    $(document).ready(function() {
+        $(".answer").mouseover(function() {
+            $(this).animate({
+                opacity: 0.4
+            }, 300 );
+        }).mouseout(function() {
+            $(this).animate({
+                opacity: 1
+            }, 300 );
+        });
+    });
+    </script>
+</head>
+
+<body>
+
+<form id="loginForm">
+
+    <fieldset>
+        <h1>Welcome to The Game!</h1>
+
+        <h3>Please log in</h3>
+
+        <table>
+            <tr>
+                <td><label>E-mail</label></td>
+                <td><input type="email" name="email" id="email" required="required" size="30"/></td>
+            </tr>
+            <tr>
+                <td><label>Password</label></td>
+                <td><input type="password" name="password" id="password" required="required" size="30"/></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;"><button  id="login_btn">Let's play!</button></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+<form id="waitingForm" style="display: none;">
+    <h1>Waiting for The Game to begin...</h1>
+</form>
+
+<form id="questionForm" style="display: none;">
+    <fieldset>
+        <h1>The Game</h1>
+
+        <h3 id="score"></h3>
+        <h3 id="questionNb"></h3>
+        <h2 id="question" class="question"></h2>
+        <p>
+            Select the correct answer:
+        </p>
+
+        <div id="answer_1" onclick="answer(1)" class="answer"></div>
+        <div id="answer_2" onclick="answer(2)" class="answer"></div>
+        <div id="answer_3" onclick="answer(3)" class="answer"></div>
+        <div id="answer_4" onclick="answer(4)" class="answer"></div>
+
+    </fieldset>
+</form>
+
+<form id="answerForm" style="display: none;">
+    <h1 id="next_question"></h1>
+    <h2 id="new_score"></h2>
+    <p></p>
+
+    <h2 id="are_u_right"></h2>
+    <h2 id="good_answer" class="answer"></h2>
+</form>
+
+<form id="rankingForm" style="display: none;">
+    <h1>Ranking</h1>
+    <h2 id="final_score"></h2>
+    <h2>Top 100</h2>
+    <table id="top_list">
+
+    </table>
+    <h2>5 users before you</h2>
+    <table id="before_list">
+
+    </table>
+    <h2>5 users after you</h2>
+    <table id="after_list">
+
+    </table>
+</form>
+
+<div id="status" style="display: none;"></div>
+
+</body>
+</html>

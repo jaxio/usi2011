@@ -1,0 +1,1 @@
+cassandra-cli -host localhost -port 9160 --keyspace USI_KEYSPACE

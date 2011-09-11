@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<!DOCTYPE plugin [<!ENTITY process-metrics SYSTEM "/pdk/plugins/process-metrics.xml">]>
+<plugin package="org.hyperic.hq.plugin.java">
+	<classpath>
+		<include name="pdk/lib/mx4j" />
+	</classpath>
+	<filter name="template" value="${OBJECT_NAME}:${alias}" />
+	<metrics name="Class Loading Metrics">
+		<metric name="Loaded Class Count" indicator="false" category="THROUGHPUT" />
+		<metric name="Total Loaded Class Count" indicator="false"
+			category="THROUGHPUT" />
+		<metric name="Unloaded Class Count" indicator="false" category="THROUGHPUT" />
+	</metrics>
+	<metrics name="Compilation">
+		<metric name="Total Compilation Time" indicator="false"
+			category="THROUGHPUT" collectionType="trendsup" units="ms" />
+	</metrics>
+	<metrics name="Garbage Collector">
+		<metric name="Collection Count" indicator="false" category="THROUGHPUT"
+			collectionType="trendsup" />
+		<metric name="Collection Time" indicator="false" category="THROUGHPUT"
+			collectionType="trendsup" />
+	</metrics>
+	<metrics name="Memory">
+		<metric name="Object Pending Finalization Count" category="THROUGHPUT"
+			indicator="false" />
+	</metrics>
+
+	<metrics name="Threading">
+		<metric name="Thread Count" category="UTILIZATION" indicator="false" />
+		<metric name="Daemon Thread Count" category="UTILIZATION"
+			indicator="false" />
+	</metrics>
+
+	<server name="Java" version="1.5.x">
+		<property name="HAS_BUILTIN_SERVICES" value="true" />
+		<property name="VERSION_FILE" value="jre/lib/fontconfig.Sun.2003.bfc" />
+		<property name="DEFAULT_PROGRAM" value="bin/java" />
+		<property name="domain" value="Java" />
+
+		<config>
+			<option name="jmx.url" description="JMX URL to MBeanServer"
+				default="service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi" />
+			<option name="jmx.username" description="JMX username"
+				optional="true" default="" />
+			<option name="jmx.password" description="JMX password"
+				optional="true" default="" type="secret" />
+			<option name="process.query" description="PTQL for Java Process"
+				default="State.Name.eq=java,Args.*.ct=proc.java.home" />
+		</config>
+
+		<metric name="Availability" template="sigar:Type=ProcState,Arg=%process.query%:State"
+			indicator="true" />
+&process-metrics;
+
+		<property name="OBJECT_NAME" value="java.lang:type=ClassLoading" />
+
+		<metrics include="Class Loading Metrics" />
+		<property name="OBJECT_NAME" value="java.lang:type=Compilation" />
+
+		<metrics include="Compilation" />
+		<property name="OBJECT_NAME" value="java.lang:type=Memory" />
+
+		<plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin" />
+
+		<property name="OBJECT_NAME" value="java.lang:type=Threading" />
+		<metrics include="Threading" />
+
+		<!-- derive installpath from JAVA_HOME env prop... -->
+		<property name="PROC_HOME_ENV" value="JAVA_HOME" />
+
+		<!-- derive installpath from -Dproc.java.home=... -->
+		<property name="PROC_HOME_PROPERTY" value="proc.java.home" />
+		<plugin type="autoinventory" class="org.hyperic.hq.product.jmx.MxServerDetector" />
+		<plugin type="measurement" class="org.hyperic.hq.product.jmx.MxMeasurementPlugin" />
+
+		<service name="Java GC">
+			<plugin type="autoinventory" />
+			<property name="OBJECT_NAME" value="java.lang:type=GarbageCollector,name=*" />
+			<metrics include="Garbage Collector" />
+		</service>
+	</server>
+
+	<server name="Java" version="1.6.x" include="1.5.x">
+		<property name="VERSION_FILE" value="jre/lib/management-agent.jar" />
+	</server>
+
+	<!-- ==================== Plugin Help =========================== -->
+	<help name="Java">
+<![CDATA[
+  <p>
+  <h3>Configure HQ for monitoring Java</h3>
+  </p>
+  <p>
+  1) Add this line to the java options when executing the binary.
+  <br>
+  "-Dcom.sun.management.jmxremote \
+  <br>
+  -Dcom.sun.management.jmxremote.port=6969 \
+  <br>
+  -Dcom.sun.management.jmxremote.ssl=false \
+  <br>
+  -Dcom.sun.management.jmxremote.authenticate=false"
+  <br>
+  </p>
+]]>
+	</help>
+	<help name="Java 1.5.x" include="Java" />
+	<help name="Java 1.6.x" include="Java" />
+</plugin>
