@@ -2,6 +2,13 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
+    <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%5p %d{HH:mm:ss,SSS} %l - %m%n" />
+		</layout>
+	</appender>
+
+    <!--
 	<appender name="Rolling" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="/opt/usi2011_jaxio/log/game.log" />
 		<param name="maxFileSize" value="100MB" />
@@ -10,6 +17,7 @@
 			<param name="ConversionPattern" value="%5p %d{HH:mm:ss,SSS} %l - %m%n" />
 		</layout>
 	</appender>
+	-->
 
 	<logger name="usi2011">
 		<level value="warn" />
@@ -33,6 +41,6 @@
 
 	<root>
 		<priority value="warn" />
-		<appender-ref ref="Rolling" />
+		<appender-ref ref="Console" />
 	</root>
 </log4j:configuration>
